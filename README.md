@@ -37,6 +37,7 @@ lore/                      分冊版（編集するためのもの）
     advisory/               非キャノン。読み込んだうえでの提案と指摘
       01-new-concepts.md    新概念の提案（7 件）
       02-doubts-and-risks.md 設定への疑念（12 件・A/B/C 判定つき）
+      03-morph-and-role-catalog.md 形態・役職・性格の統合検討（保留中）
     archive/                統合前の原本 Part 1〜35。凍結・参照専用
 
 tools/
