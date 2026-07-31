@@ -2,7 +2,9 @@
 """セラ世界設定大全 — 分冊から一冊の本を組み上げる。
 
 lore/sera/ に置かれた第 1〜8 巻と付録を、篇立て・目次つきの単一ファイルへ製本する。
-出典ファイルは一切書き換えない。生成物は book/セラ大全.md のみ。
+出典ファイルは一切書き換えない。生成物は book/セラ大全.md と付録 C のみ。
+
+製本の前に tools/check_lore.py を走らせる。**検査に落ちると製本しない。**
 
     python3 tools/build_book.py
 """
@@ -10,6 +12,7 @@ lore/sera/ に置かれた第 1〜8 巻と付録を、篇立て・目次つき�
 from __future__ import annotations
 
 import re
+import subprocess
 import sys
 import unicodedata
 from dataclasses import dataclass, field
@@ -224,7 +227,20 @@ def render_toc(toc: list[Entry]) -> str:
     return "\n".join(lines)
 
 
+def check() -> None:
+    """製本の前に整合検査を通す。落ちたら製本しない。"""
+    proc = subprocess.run(
+        [sys.executable, str(ROOT / "tools" / "check_lore.py")],
+        capture_output=True, text=True,
+    )
+    sys.stdout.write(proc.stdout)
+    if proc.returncode != 0:
+        sys.stderr.write(proc.stderr)
+        sys.exit("整合検査に失敗した。製本を中止する。")
+
+
 def main() -> None:
+    check()
     n_rules = build_appendix_c()
     slugger = Slugger()
     toc: list[Entry] = []
