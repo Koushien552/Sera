@@ -13,7 +13,7 @@
 **[`book/セラ大全.md`](book/セラ大全.md)** — 全設定を一冊に製本したもの。
 
 分冊の全文がそのまま入っており、要約でも再構成でもない。
-目次・篇立て・不変ルール一覧が付いているので、通読も参照もこれ一つで足りる。
+目次・篇立て・セラ百科・不変ルール一覧が付いているので、通読も参照もこれ一つで足りる。
 
 急ぐ場合は **第五篇（起源）** から読むとよい。
 そこにセラがなぜこうであるかのすべてが書かれている。
@@ -27,7 +27,7 @@ book/                      製本版（読むためのもの）
   セラ大全.md              ← 自動生成。直接編集しない
   front/                   扉・凡例
   back/
-    appendix-b-invariants.md ← 自動生成。lore/README.md の不変ルールから写す
+    appendix-c-invariants.md ← 自動生成。lore/README.md の不変ルールから写す
     99-後記.md
 
 lore/                      分冊版（編集するためのもの）
@@ -35,6 +35,7 @@ lore/                      分冊版（編集するためのもの）
   sera/
     vol1〜vol8-*.md         キャノン。全 8 巻
     appendix-a-*.md         付録 A（種族比率）
+    appendix-b-*.md         付録 B（セラ百科）
     consistency-notes.md    非キャノン。重複・揺れ・要決定事項
     advisory/               非キャノン。読み込んだうえでの提案と指摘
       01-new-concepts.md    新概念の提案 7 件（全件処理済み）
@@ -48,7 +49,7 @@ tools/
 
 ### キャノンとそうでないもの
 
-**キャノンは `lore/sera/vol1〜8` と `appendix-a` だけである。**
+**キャノンは `lore/sera/vol1〜8` と `appendix-a`・`appendix-b` である。**
 
 `book/セラ大全.md` はその製本であり、内容は完全に同一。
 `consistency-notes.md`・`advisory/`・`archive/` はいずれも**非キャノン**であり、
@@ -62,7 +63,7 @@ tools/
 `book/セラ大全.md` は生成物なので、直接編集しても次の製本で消える。
 
 不変ルールを足すときは `lore/README.md` の「全体を貫く不変ルール」に追記する。
-付録 B（`book/back/appendix-b-invariants.md`）はそこから自動生成されるので、
+付録 C（`book/back/appendix-c-invariants.md`）はそこから自動生成されるので、
 両方に書く必要はない。**採番が飛んでいると製本が失敗する。**
 
 ```sh
@@ -78,7 +79,7 @@ python3 tools/build_book.py
 - **未確定事項を本文に混ぜない。** 検討中の案は `consistency-notes.md` か
   `advisory/` に置き、確定していないことが読み手に分かる状態にする
 - **`archive/` は書き換えない。** 統合前の原本として凍結する
-- **不変ルール**（`lore/README.md` および付録 B）を変えるときは、
+- **不変ルール**（`lore/README.md` および付録 C）を変えるときは、
   必ず関連する巻を横断確認する。1 箇所だけ変えると設定全体が壊れる
 - **画像生成の方針も設定の一部として扱う。**
   デザインの一貫性は世界観の一貫性そのものである

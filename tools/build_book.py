@@ -89,19 +89,22 @@ PARTS: list[Part] = [
         "付録",
         "参照",
         "本文を読み終えたあとに引くためのもの。通読は要さない。",
-        [SRC / "appendix-a-assimilation-ratios.md"],
+        [
+            SRC / "appendix-a-assimilation-ratios.md",
+            SRC / "appendix-b-encyclopedia.md",
+        ],
     ),
 ]
 
 FRONT = [BOOK / "front" / "01-扉.md", BOOK / "front" / "02-凡例.md"]
-BACK = [BOOK / "back" / "appendix-b-invariants.md", BOOK / "back" / "99-後記.md"]
+BACK = [BOOK / "back" / "appendix-c-invariants.md", BOOK / "back" / "99-後記.md"]
 
-# 付録 B は lore/README.md の不変ルール一覧から毎回組み直す。
+# 付録 C は lore/README.md の不変ルール一覧から毎回組み直す。
 # 手写しにすると必ずずれるため、単一の出典から生成する。
 RULES_SRC = ROOT / "lore" / "README.md"
-APPENDIX_B = BOOK / "back" / "appendix-b-invariants.md"
-APPENDIX_B_HEAD = """\
-# 付録 B　不変ルール一覧
+APPENDIX_C = BOOK / "back" / "appendix-c-invariants.md"
+APPENDIX_C_HEAD = """\
+# 付録 C　不変ルール一覧
 
 全巻が繰り返し明記している核となる規則である。
 
@@ -117,8 +120,8 @@ APPENDIX_B_HEAD = """\
 """
 
 
-def build_appendix_b() -> int:
-    """lore/README.md の「全体を貫く不変ルール」節を付録 B へ写す。"""
+def build_appendix_c() -> int:
+    """lore/README.md の「全体を貫く不変ルール」節を付録 C へ写す。"""
     text = read(RULES_SRC)
     m = re.search(
         r"^## 全体を貫く不変ルール\s*$(.*?)^## ", text, re.S | re.M
@@ -135,9 +138,9 @@ def build_appendix_b() -> int:
     if actual != expected:
         gap = next(a for a, e in zip(actual, expected) if a != e)
         sys.exit(f"不変ルールの採番が飛んでいる（{gap} 付近）")
-    APPENDIX_B.parent.mkdir(parents=True, exist_ok=True)
-    APPENDIX_B.write_text(
-        APPENDIX_B_HEAD + "\n" + "\n".join(rules) + "\n", encoding="utf-8"
+    APPENDIX_C.parent.mkdir(parents=True, exist_ok=True)
+    APPENDIX_C.write_text(
+        APPENDIX_C_HEAD + "\n" + "\n".join(rules) + "\n", encoding="utf-8"
     )
     return len(rules)
 
@@ -222,7 +225,7 @@ def render_toc(toc: list[Entry]) -> str:
 
 
 def main() -> None:
-    n_rules = build_appendix_b()
+    n_rules = build_appendix_c()
     slugger = Slugger()
     toc: list[Entry] = []
     chunks: list[str] = []
