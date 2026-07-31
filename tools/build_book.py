@@ -96,6 +96,51 @@ PARTS: list[Part] = [
 FRONT = [BOOK / "front" / "01-扉.md", BOOK / "front" / "02-凡例.md"]
 BACK = [BOOK / "back" / "appendix-b-invariants.md", BOOK / "back" / "99-後記.md"]
 
+# 付録 B は lore/README.md の不変ルール一覧から毎回組み直す。
+# 手写しにすると必ずずれるため、単一の出典から生成する。
+RULES_SRC = ROOT / "lore" / "README.md"
+APPENDIX_B = BOOK / "back" / "appendix-b-invariants.md"
+APPENDIX_B_HEAD = """\
+# 付録 B　不変ルール一覧
+
+全巻が繰り返し明記している核となる規則である。
+
+**1 箇所だけ変更すると設定全体が壊れる。**
+改訂する場合は、必ず関連する部を横断して確認すること。
+
+本文を読み終えたあとの点検表として使うことを想定している。
+各項の根拠は本文にあり、ここには結論だけを置く。
+
+この一覧は `lore/README.md` から自動生成される。直接編集しない。
+
+---
+"""
+
+
+def build_appendix_b() -> int:
+    """lore/README.md の「全体を貫く不変ルール」節を付録 B へ写す。"""
+    text = read(RULES_SRC)
+    m = re.search(
+        r"^## 全体を貫く不変ルール\s*$(.*?)^## ", text, re.S | re.M
+    )
+    if not m:
+        sys.exit("lore/README.md に「全体を貫く不変ルール」節が見つからない")
+    rules = [
+        line for line in m.group(1).split("\n") if re.match(r"^\d+\. ", line)
+    ]
+    if not rules:
+        sys.exit("不変ルールを 1 件も抽出できなかった")
+    expected = list(range(1, len(rules) + 1))
+    actual = [int(r.split(".", 1)[0]) for r in rules]
+    if actual != expected:
+        gap = next(a for a, e in zip(actual, expected) if a != e)
+        sys.exit(f"不変ルールの採番が飛んでいる（{gap} 付近）")
+    APPENDIX_B.parent.mkdir(parents=True, exist_ok=True)
+    APPENDIX_B.write_text(
+        APPENDIX_B_HEAD + "\n" + "\n".join(rules) + "\n", encoding="utf-8"
+    )
+    return len(rules)
+
 
 class Slugger:
     """GitHub 互換の見出しアンカーを、重複を避けながら振る。"""
@@ -177,6 +222,7 @@ def render_toc(toc: list[Entry]) -> str:
 
 
 def main() -> None:
+    n_rules = build_appendix_b()
     slugger = Slugger()
     toc: list[Entry] = []
     chunks: list[str] = []
@@ -210,7 +256,10 @@ def main() -> None:
     OUT.write_text(book + "\n", encoding="utf-8")
 
     chars = len(book)
-    print(f"{OUT.relative_to(ROOT)}: {chars:,} 字 / 目次 {len(toc)} 項")
+    print(
+        f"{OUT.relative_to(ROOT)}: {chars:,} 字 / 目次 {len(toc)} 項 "
+        f"/ 不変ルール {n_rules} 項"
+    )
 
 
 if __name__ == "__main__":

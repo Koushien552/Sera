@@ -26,7 +26,9 @@
 book/                      製本版（読むためのもの）
   セラ大全.md              ← 自動生成。直接編集しない
   front/                   扉・凡例
-  back/                    付録 B（不変ルール 125 項）・後記
+  back/
+    appendix-b-invariants.md ← 自動生成。lore/README.md の不変ルールから写す
+    99-後記.md
 
 lore/                      分冊版（編集するためのもの）
   README.md                設定の地図。不変ルール一覧もここにある
@@ -58,6 +60,10 @@ tools/
 
 修正は**分冊側**（`lore/sera/vol*.md`）へ入れる。
 `book/セラ大全.md` は生成物なので、直接編集しても次の製本で消える。
+
+不変ルールを足すときは `lore/README.md` の「全体を貫く不変ルール」に追記する。
+付録 B（`book/back/appendix-b-invariants.md`）はそこから自動生成されるので、
+両方に書く必要はない。**採番が飛んでいると製本が失敗する。**
 
 ```sh
 python3 tools/build_book.py
