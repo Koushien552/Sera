@@ -93,7 +93,7 @@ def check_references(sources: dict[str, tuple[Path, str, set[str]]]) -> None:
     targets: list[tuple[str, Path, str, str | None]] = []
     for key, (path, text, _) in sources.items():
         targets.append((key, path, text, key))
-    for path in sorted(STORY.glob("*.md")):
+    for path in sorted(STORY.rglob("*.md")):
         targets.append((path.stem, path, path.read_text(encoding="utf-8"), None))
 
     vol_of = {str(i): f"vol{i}" for i in range(1, 9)}
