@@ -99,6 +99,7 @@ lore/                      分冊版（編集するためのもの）
       01-new-concepts.md    新概念の提案 7 件（全件処理済み）
       02-doubts-and-risks.md 設定への疑念 12 件（全件解決）
       03-morph-and-role-catalog.md 形態・役職・性格の統合検討（全件決定）
+      04-story-revision.md   物語の読み直しと改稿提案（検討中）
     archive/                統合前の原本 Part 1〜35。凍結・参照専用
 
 tools/
