@@ -14,6 +14,7 @@ PARTS = [
     (6,  18, "第二部", "声"),
     (19, 22, "第三部", "渡る"),
     (23, 29, "第四部", "外"),
+    (None, None, "幕間", "まちの一日"),
     (30, 32, "第五部", "ふえる"),
     (33, 38, "第六部", "なりわい"),
     (39, 44, "第七部", "ちから"),
@@ -63,17 +64,28 @@ def main():
         title = re.sub(r"^#\s*第.+?話\s*", "", head).strip()
         chapters[n] = (title, body.strip())
 
+    inter = io.open(os.path.join(STORY, "幕間", "01-まちの一日.md"),
+                    encoding="utf-8").read().split("\n", 1)[1].strip()
+
+    toc = ["## 目次\n"]
     parts = []
     for lo, hi, label, name in PARTS:
         parts.append("## %s　%s\n" % (label, name))
+        toc.append("**%s　%s**\n" % (label, name))
+        if lo is None:
+            parts.append(inter + "\n")
+            continue
         for n in range(lo, hi + 1):
             if n not in chapters:
                 continue
             title, body = chapters[n]
             parts.append("### %s　%s\n\n%s\n" % (kanji(n), title, body))
+            toc.append("%s　%s" % (kanji(n), title))
+        toc.append("")
 
     io.open(OUT, "w", encoding="utf-8").write(
-        FRONT + "---\n\n" + "\n".join(parts) + BACK)
+        FRONT + "---\n\n" + "\n".join(toc) + "\n---\n\n"
+        + "\n".join(parts) + BACK)
 
     chars = len(re.sub(r"\s", "", io.open(OUT, encoding="utf-8").read()))
     print("book/応え.md: %s 話 / %s 字" % (len(chapters), format(chars, ",")))
