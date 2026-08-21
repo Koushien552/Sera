@@ -5,7 +5,7 @@ import io, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 STORY = os.path.join(ROOT, "story")
-OUT = os.path.join(ROOT, "book", "応え.md")
+OUT = os.path.join(ROOT, "book", "archive", "応え.md")
 
 KAN = "〇一二三四五六七八九"
 
@@ -148,7 +148,7 @@ def main():
         + "\n".join(parts) + BACK)
 
     chars = len(re.sub(r"\s", "", io.open(OUT, encoding="utf-8").read()))
-    print("book/応え.md: %s 話 / %s 字" % (len(chapters), format(chars, ",")))
+    print("book/archive/応え.md: %s 話 / %s 字" % (len(chapters), format(chars, ",")))
 
 
 if __name__ == "__main__":
