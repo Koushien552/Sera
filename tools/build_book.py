@@ -95,19 +95,20 @@ PARTS: list[Part] = [
         [
             SRC / "appendix-a-assimilation-ratios.md",
             SRC / "appendix-b-encyclopedia.md",
+            SRC / "appendix-c-visual.md",
         ],
     ),
 ]
 
 FRONT = [BOOK / "front" / "01-扉.md", BOOK / "front" / "02-凡例.md"]
-BACK = [BOOK / "back" / "appendix-c-invariants.md", BOOK / "back" / "99-後記.md"]
+BACK = [BOOK / "back" / "appendix-d-invariants.md", BOOK / "back" / "99-後記.md"]
 
-# 付録 C は lore/README.md の不変ルール一覧から毎回組み直す。
+# 付録 D は lore/README.md の不変ルール一覧から毎回組み直す。
 # 手写しにすると必ずずれるため、単一の出典から生成する。
 RULES_SRC = ROOT / "lore" / "README.md"
-APPENDIX_C = BOOK / "back" / "appendix-c-invariants.md"
-APPENDIX_C_HEAD = """\
-# 付録 C　不変ルール一覧
+APPENDIX_D = BOOK / "back" / "appendix-d-invariants.md"
+APPENDIX_D_HEAD = """\
+# 付録 D　不変ルール一覧
 
 全巻が繰り返し明記している核となる規則である。
 
@@ -123,8 +124,8 @@ APPENDIX_C_HEAD = """\
 """
 
 
-def build_appendix_c() -> int:
-    """lore/README.md の「全体を貫く不変ルール」節を付録 C へ写す。"""
+def build_appendix_d() -> int:
+    """lore/README.md の「全体を貫く不変ルール」節を付録 D へ写す。"""
     text = read(RULES_SRC)
     m = re.search(
         r"^## 全体を貫く不変ルール\s*$(.*?)^## ", text, re.S | re.M
@@ -141,9 +142,9 @@ def build_appendix_c() -> int:
     if actual != expected:
         gap = next(a for a, e in zip(actual, expected) if a != e)
         sys.exit(f"不変ルールの採番が飛んでいる（{gap} 付近）")
-    APPENDIX_C.parent.mkdir(parents=True, exist_ok=True)
-    APPENDIX_C.write_text(
-        APPENDIX_C_HEAD + "\n" + "\n".join(rules) + "\n", encoding="utf-8"
+    APPENDIX_D.parent.mkdir(parents=True, exist_ok=True)
+    APPENDIX_D.write_text(
+        APPENDIX_D_HEAD + "\n" + "\n".join(rules) + "\n", encoding="utf-8"
     )
     return len(rules)
 
@@ -241,7 +242,7 @@ def check() -> None:
 
 def main() -> None:
     check()
-    n_rules = build_appendix_c()
+    n_rules = build_appendix_d()
     slugger = Slugger()
     toc: list[Entry] = []
     chunks: list[str] = []

@@ -51,6 +51,8 @@ def volume_key(name: str) -> str:
         return "付録A"
     if "appendix-b" in name:
         return "付録B"
+    if "appendix-c" in name:
+        return "付録C"
     return name
 
 
@@ -72,7 +74,7 @@ def load_sources() -> dict[str, tuple[Path, str, set[str]]]:
 
 
 VOL_LABEL = {**{f"vol{i}": f"第 {i} 巻" for i in range(1, 9)},
-             "付録A": "付録 A", "付録B": "付録 B"}
+             "付録A": "付録 A", "付録B": "付録 B", "付録C": "付録 C"}
 
 
 def owns(heads: set[str], num: str) -> bool:
