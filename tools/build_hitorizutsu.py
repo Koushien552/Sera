@@ -1,11 +1,15 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""novel/ の各話を、一冊の小説 book/ひとりずつ.md に組む。"""
+"""novel/ の各話を、一冊の小説 book/archive/ひとりずつ.md に組む。
+
+二冊目『ひとりずつ』は旧版として保管しており、原稿はもう更新しない。
+このスクリプトは、保管されたものを組み直すためだけに残してある。
+"""
 import io, os, re
 
 ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SRC = os.path.join(ROOT, "novel")
-OUT = os.path.join(ROOT, "book", "ひとりずつ.md")
+OUT = os.path.join(ROOT, "book", "archive", "ひとりずつ.md")
 
 KAN = "〇一二三四五六七八九"
 
@@ -152,7 +156,7 @@ def main():
         + "\n".join(parts) + BACK)
 
     chars = len(re.sub(r"\s", "", io.open(OUT, encoding="utf-8").read()))
-    print("book/ひとりずつ.md: %s 話 / %s 字" % (len(chapters), format(chars, ",")))
+    print("book/archive/ひとりずつ.md: %s 話 / %s 字" % (len(chapters), format(chars, ",")))
 
 
 if __name__ == "__main__":
