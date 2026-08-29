@@ -24,7 +24,7 @@
 | 場面の変わり目 | **◇** を一行。一話に数個まで |
 | 強調 | **使わない。**置く場所で効かせる |
 
-組み上がりは [`book/応え.md`](../book/応え.md) である。
+組み上がりは [`book/archive/応え.md`](../book/archive/応え.md) である。
 
 ```sh
 python3 tools/build_novel.py

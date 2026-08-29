@@ -130,7 +130,7 @@
 
 **通し推敲ずみ**（数えて直す一周目と、読んで直す二周目／`書きかた.md` §9）。
 
-組み上がったものは `book/ひとりずつ.md`（`tools/build_hitorizutsu.py` で再生成）。
+組み上がったものは `book/archive/ひとりずつ.md`（`tools/build_hitorizutsu.py` で再生成）。
 
 ---
 

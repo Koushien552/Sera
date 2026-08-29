@@ -173,7 +173,7 @@ tools/
 `book/セラ大全.md` は生成物なので、直接編集しても次の製本で消える。
 
 不変ルールを足すときは `lore/README.md` の「全体を貫く不変ルール」に追記する。
-付録 C（`book/back/appendix-c-invariants.md`）はそこから自動生成されるので、
+付録 D（`book/back/appendix-d-invariants.md`）はそこから自動生成されるので、
 両方に書く必要はない。
 
 ```sh

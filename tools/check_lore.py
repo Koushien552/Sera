@@ -114,14 +114,20 @@ def check_references(sources: dict[str, tuple[Path, str, set[str]]]) -> None:
             if am:
                 candidates = [vol_of[am.group(1)]]
             else:
-                bm = list(re.finditer(r"第\s*(\d)\s*巻|付録\s*([AB])", before))
-                if bm:
-                    last = bm[-1]
-                    tail = before[last.end():]
-                    if "。" not in tail and "\n\n" not in tail:
-                        inherited = (vol_of[last.group(1)] if last.group(1)
-                                     else ("付録A" if last.group(2) == "A" else "付録B"))
-                        candidates.append(inherited)
+                # 直前に「第 N 巻 」が接していれば、それが唯一の指定である。
+                em = re.search(r"第\s*(\d)\s*巻\s*$|付録\s*([AB])\s*$", before)
+                if em:
+                    candidates = [vol_of[em.group(1)] if em.group(1)
+                                  else ("付録A" if em.group(2) == "A" else "付録B")]
+                else:
+                    bm = list(re.finditer(r"第\s*(\d)\s*巻|付録\s*([AB])", before))
+                    if bm:
+                        last = bm[-1]
+                        tail = before[last.end():]
+                        if "。" not in tail and "\n\n" not in tail:
+                            inherited = (vol_of[last.group(1)] if last.group(1)
+                                         else ("付録A" if last.group(2) == "A" else "付録B"))
+                            candidates.append(inherited)
 
             if any(c in sources and owns(sources[c][2], num) for c in candidates):
                 continue
